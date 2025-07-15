@@ -4,6 +4,7 @@ Machine Learning tool for creative music applications
 ## under development
 This is an initial release. The project is still under development. Current functionality:
 - OSC Input and output
+- save and load training data
 - train and predict with the following models:
 	- Classifiers:
 		- MLP
