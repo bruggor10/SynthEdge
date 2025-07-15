@@ -1,5 +1,5 @@
 # SynthEdge
-Machine Learning tool for creative music applications
+Machine Learning tool for creative music applications. Inspired by WEKINATOR (https://github.com/fiebrink1/wekinator), but written in Python and on a more modern tech stack
 
 ## under development
 This is an initial release. The project is still under development. Current functionality:
@@ -10,6 +10,7 @@ This is an initial release. The project is still under development. Current func
 		- MLP
 		- RandomForest
 		- Support Vector Machine
+		- K-Nearest Neighbour
 	- Regressors:
 		- RandomForest Regressor
 		- Linear / Polynomial Regression
@@ -18,7 +19,6 @@ This is an initial release. The project is still under development. Current func
 		
 		
 ## To do
-- implement more models
 - dynamic time warping
 - create GUI
 	
