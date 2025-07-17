@@ -20,7 +20,7 @@ class OSCReceiver:
     def add_handler(self, address, handler_func):
         """
         Fügt einen Handler für eine bestimmte OSC-Address hinzu.
-        :param address: OSC-Adresse (z.B. "/wek/inputs")
+        :param address: OSC-Adresse (z.B. "/synthedge/inputs")
         :param handler_func: Funktion mit Signatur handler_func(address, *args)
         """
         self.dispatcher.map(address, handler_func)
@@ -48,11 +48,12 @@ class OSCReceiver:
 
 
 class OSCHandler:
-    def __init__(self, recorder, model, ip="0.0.0.0", port=5005):
+    def __init__(self, recorder, model, sender, ip="0.0.0.0", port=5005):
         self.ip = ip
         self.port = port
         self.rec = recorder
         self.model = model
+        self.sender = sender
 
     # ============ Handlers ==========
     def data_handler(self, address, *args):
@@ -62,7 +63,7 @@ class OSCHandler:
             if self.model.is_trained: 
                 X_input = np.array(args).reshape(1,-1)
                 print(*self.model.predict(X_input))
-                # self.sender.send_message("/synthedge/outputs", *model.predict(X_input))
+                self.sender.send_message("/synthedge/outputs", *self.model.predict(X_input))
             else:
                 print("Train model first") 
     def recorder_handler(self, address, recstate):
@@ -102,15 +103,15 @@ class OSCHandler:
 
     def start_osc(self):
         ## handle OSC Inputs
-        self.receiver = OSCReceiver(ip=self.ip, port=5005)
-        self.receiver.add_handler("/wek/inputs", self.data_handler)
-        self.receiver.add_handler("/wek/record_inputs", self.recorder_handler)
-        self.receiver.add_handler("/wek/save_inputs", self.save_handler)
-        self.receiver.add_handler("/wek/load_inputs", self.load_handler)
-        self.receiver.add_handler("/wek/train", self.train_handler)
-        self.receiver.add_handler("/wek/reset", self.reset_handler)
-        self.receiver.add_handler("/wek/label", self.label_handler)
-        self.receiver.add_handler("/wek/run", self.run_handler)
+        self.receiver = OSCReceiver(ip=self.ip, port=self.port)
+        self.receiver.add_handler("/synthedge/inputs", self.data_handler)
+        self.receiver.add_handler("/synthedge/record_inputs", self.recorder_handler)
+        self.receiver.add_handler("/synthedge/save_inputs", self.save_handler)
+        self.receiver.add_handler("/synthedge/load_inputs", self.load_handler)
+        self.receiver.add_handler("/synthedge/train", self.train_handler)
+        self.receiver.add_handler("/synthedge/reset", self.reset_handler)
+        self.receiver.add_handler("/synthedge/label", self.label_handler)
+        self.receiver.add_handler("/synthedge/run", self.run_handler)
         self.receiver.start()
 
     def stop_osc(self):

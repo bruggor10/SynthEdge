@@ -17,26 +17,32 @@ from sklearn.pipeline import Pipeline
 
 
 class ModelManager:
-    def __init__(self, model_type, **kwargs):
+    def __init__(self, **kwargs):
         """
         Initialisiert das Modell. Unterstützte Typen: Classifiers: 'mlp', 'rf', 'svm'. Regressoren: 'lin_reg', 'mlp_reg', 'rf_reg', 'svr'
         kwargs: Zusätzliche Parameter für das Modell
         """
-    #     AVAILABLE_MODELS 
-    #     "mlp": MLPClassifier,
-    #     "rf": RandomForestClassifier,
-    #     "knn": KNeighborsClassifier,
-    #     "svm": SVC,
-    #     # Regressoren:
-    #     "lin_reg": LinearRegression,
-    #     "mlp_reg": MLPRegressor,
-    #     "rf_reg": RandomForestRegressor,
-    #     "svr": SVR
+        self.AVAILABLE_MODELS = {
+        # Klassifikatoren
+        "mlp": "MLPClassifier",
+        "rf": "RandomForestClassifier",
+        "knn": "KNeighborsClassifier",
+        "svm": "SVC",
+
+        # Regressoren
+        "lin_poly_reg": "Linear(Polynomial)Regression", 
+        "mlp_reg": "MLPRegressor",
+        "rf_reg": "RandomForestRegressor",
+        "svr": "SVR"
+    }
     
         self.is_trained = False
         self.is_running = False
-        self.model_type = model_type
         self.degree = 1
+        # self.model = self._create_model(**kwargs)
+
+    def configure_model(self, model_type, **kwargs):
+        self.model_type = model_type
         self.model = self._create_model(**kwargs)
 
     def _create_model(self, **kwargs):
@@ -55,6 +61,7 @@ class ModelManager:
                 'early_stopping':False,         # nicht nötig bei `solver:'lbfgs'`
                 'random_state':42
             }
+            # print("mlp created")
             params = {**default_params, **kwargs}
             model = MLPClassifier(**params)
 
@@ -70,6 +77,7 @@ class ModelManager:
                 'class_weight':'balanced',    # Automatische Gewichtung der Klassen bei unbalancierten Daten
                 'random_state':42             # Für reproduzierbare Ergebnisse
             }
+            # print("rf created")
             params = {**default_params, **kwargs}
             model = RandomForestClassifier(**params)
             
@@ -139,8 +147,7 @@ class ModelManager:
 
         else:
             raise ValueError(f"Unbekannter Modelltyp: {self.model_type}")
-        
-        print(model.get_params())
+
         
         # Pipeline mit StandardScaler
         pipeline = Pipeline([
@@ -168,6 +175,13 @@ class ModelManager:
         :return: Vorhergesagte Klassenlabels
         """
         return self.model.predict(X)
+
+    def get_classifiers(self):
+        return self.AVAILABLE_MODELS.items()
+
+    # def get_regressors(self):
+    #     return {k: v for k, v in self.AVAILABLE_MODELS.items() if k.endswith('_reg')}
+
 
     # def predict_proba(self, X):
     #     """
