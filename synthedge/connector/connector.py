@@ -29,7 +29,7 @@ class MainApp(QMainWindow):
         selection = self.ui.models.currentText()
         all_models = dict(self.model.get_classifiers()) | dict(self.model.get_regressors())
         key = next((k for k, v in all_models.items() if v == selection), None)
-        self.model.configure_model(model_type=key)
+        if key: self.model.configure_model(model_type=key)
 
     def classifiers_checked(self, checked):
         if checked:
