@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>555</width>
+    <height>368</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>30</y>
+      <x>50</x>
+      <y>170</y>
       <width>181</width>
       <height>89</height>
      </rect>
@@ -35,7 +35,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QRadioButton" name="model_selector_regressors">
+      <widget class="QRadioButton" name="model_type_regressors">
        <property name="cursor">
         <cursorShape>ArrowCursor</cursorShape>
        </property>
@@ -49,11 +49,81 @@
    <widget class="QComboBox" name="models">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>120</y>
+      <x>50</x>
+      <y>260</y>
       <width>281</width>
       <height>31</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="data_in_blink">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>30</y>
+      <width>21</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(246, 97, 81);
+border-color: rgb(119, 118, 123);
+border-radius: 10px;
+border: 2px solid;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>10</y>
+      <width>58</width>
+      <height>15</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Osc Input</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>10</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Osc Output</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="data_out_blink">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>30</y>
+      <width>21</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(246, 97, 81);
+border-color: rgb(119, 118, 123);
+border-radius: 10px;
+border: 2px solid;</string>
+    </property>
+    <property name="text">
+     <string/>
     </property>
    </widget>
   </widget>
@@ -62,7 +132,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>555</width>
      <height>20</height>
     </rect>
    </property>

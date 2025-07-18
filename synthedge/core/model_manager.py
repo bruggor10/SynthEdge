@@ -22,19 +22,20 @@ class ModelManager:
         Initialisiert das Modell. Unterstützte Typen: Classifiers: 'mlp', 'rf', 'svm'. Regressoren: 'lin_reg', 'mlp_reg', 'rf_reg', 'svr'
         kwargs: Zusätzliche Parameter für das Modell
         """
-        self.AVAILABLE_MODELS = {
+        self.AVAILABLE_CLASSIFIERS = {
         # Klassifikatoren
         "mlp": "MLPClassifier",
         "rf": "RandomForestClassifier",
         "knn": "KNeighborsClassifier",
-        "svm": "SVC",
-
+        "svm": "SVC"
+        }
+        self.AVAILABLE_REGRESSORS = {
         # Regressoren
         "lin_poly_reg": "Linear(Polynomial)Regression", 
         "mlp_reg": "MLPRegressor",
         "rf_reg": "RandomForestRegressor",
         "svr": "SVR"
-    }
+        }
     
         self.is_trained = False
         self.is_running = False
@@ -44,6 +45,8 @@ class ModelManager:
     def configure_model(self, model_type, **kwargs):
         self.model_type = model_type
         self.model = self._create_model(**kwargs)
+        print("Configuring model: "+self.model_type)
+        self.is_trained = False
 
     def _create_model(self, **kwargs):
         """
@@ -92,7 +95,7 @@ class ModelManager:
             params = {**default_params, **kwargs}
             model = SVC(**params)
 
-        elif self.model_type == 'knn': #####
+        elif self.model_type == 'knn':
             default_params = {
                 'n_neighbors':5,				# Anzahl der Nachbarn (k)
                 'weights':'uniform',			# oder 'distance' (gewichtete Nachbarn)
@@ -100,7 +103,8 @@ class ModelManager:
                 'p':2							# Parameter für Minkowski-Metrik
             }
             params = {**default_params, **kwargs}
-            KNeighborsClassifier(**params)
+            model = KNeighborsClassifier(**params)
+
             # === Regressors ====
         elif self.model_type == 'rf_reg':
             default_params = {
@@ -122,6 +126,7 @@ class ModelManager:
                'degree' : 2 
             }
             params = {**default_params, **kwargs}
+            self.degree = params.pop('degree')
             model = LinearRegression(**params)
             
         elif self.model_type == 'mlp_reg':
@@ -177,13 +182,11 @@ class ModelManager:
         return self.model.predict(X)
 
     def get_classifiers(self):
-        return self.AVAILABLE_MODELS.items()
+        return self.AVAILABLE_CLASSIFIERS.items()
+    
+    def get_regressors(self):
+        return self.AVAILABLE_REGRESSORS.items()
 
-    # def get_regressors(self):
-    #     return {k: v for k, v in self.AVAILABLE_MODELS.items() if k.endswith('_reg')}
-
-
-    # def predict_proba(self, X):
     #     """
     #     Gibt Wahrscheinlichkeiten der Klassen zurück (falls unterstützt).
     #     """

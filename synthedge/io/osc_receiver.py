@@ -1,5 +1,6 @@
 from pythonosc import dispatcher
 from pythonosc import osc_server
+from PySide6.QtCore import QObject, Signal
 import numpy as np
 import threading
 
@@ -16,6 +17,8 @@ class OSCReceiver:
         self.server = None
         self.thread = None
         self.message_handler = None
+
+
 
     def add_handler(self, address, handler_func):
         """
@@ -47,16 +50,20 @@ class OSCReceiver:
                 
 
 
-class OSCHandler:
+class OSCHandler(QObject):
+    trigger_blink = Signal()
     def __init__(self, recorder, model, sender, ip="0.0.0.0", port=5005):
+        super().__init__()
         self.ip = ip
         self.port = port
         self.rec = recorder
         self.model = model
         self.sender = sender
 
+
     # ============ Handlers ==========
     def data_handler(self, address, *args):
+        self.trigger_blink.emit()
         if(self.rec.is_recording):
             self.rec.add_input(list(args))
         if(self.model.is_running):
@@ -65,7 +72,9 @@ class OSCHandler:
                 print(*self.model.predict(X_input))
                 self.sender.send_message("/synthedge/outputs", *self.model.predict(X_input))
             else:
-                print("Train model first") 
+                print("Train model first")
+
+
     def recorder_handler(self, address, recstate):
         self.rec.is_recording = bool(recstate)
         if(self.model.is_running):

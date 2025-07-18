@@ -9,22 +9,21 @@ import sys
 # ==== global objects =====
 rec = Recorder(3) # for 3 inputs
 model = ModelManager()
-model.configure_model(model_type='rf')
+model.configure_model(model_type='lin_poly_reg')
 sender = OSCSender(ip="127.0.0.1", port=5006)
+osc_in = OSCHandler(rec, model, sender)
 
 
 def main():
-    osc_in = OSCHandler(rec, model, sender)
-    osc_in.start_osc()
-
-
     # try:
     #     while True:
     #         pass  # Keep main thread alive
     # except KeyboardInterrupt:
     #     osc_in.stop_osc()
+
+    osc_in.start_osc()
     app = QApplication(sys.argv)
-    window = MainApp(osc_in, model)
+    window = MainApp(osc_in, model, sender)
     window.show()
     sys.exit(app.exec())
 

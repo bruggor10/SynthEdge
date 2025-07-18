@@ -1,7 +1,10 @@
 from pythonosc import udp_client
+from PySide6.QtCore import QObject, Signal
 
-class OSCSender:
+class OSCSender(QObject):
+    trigger_blink = Signal()
     def __init__(self, ip, port):
+        super().__init__()
         """
         Initialisiert den OSC Client.
         :param ip: IP-Adresse des OSC-Servers (Empfängers)
@@ -16,4 +19,4 @@ class OSCSender:
         :param args: Beliebig viele Werte, z. B. float, int, str
         """
         self.client.send_message(address, args)
-        # print(f"Gesendet: {address} {args}")
+        self.trigger_blink.emit()
