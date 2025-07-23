@@ -14,17 +14,27 @@ class MainApp(QMainWindow):
         self.osc_out = sender
         self.model = model
         
+        self.recstate = False
+
         self.ui.models.currentIndexChanged.connect(self.model_selected)     
         self.ui.model_type_classifiers.toggled.connect(self.classifiers_checked)
         self.ui.model_type_regressors.toggled.connect(self.regressors_checked)
 
         
         # blink widgets
-        self.input_blink_widget = BlinkWidget(self.ui.data_in_blink)
-        self.output_blink_widget = BlinkWidget(self.ui.data_out_blink)
-        # self.input_blink_widget.start_blinking()
+        self.input_blink_widget = BlinkWidget(self.ui.data_in_blink, role='blink')
+        self.output_blink_widget = BlinkWidget(self.ui.data_out_blink, role='blink')
+        self.model_trainingstatus = BlinkWidget(self.ui.model_trainingstatus, role='led')
+        self.rec_led = BlinkWidget(self.ui.rec_status, role='led')
         self.osc_in.trigger_blink.connect(self.input_blink_widget.start_blinking)
         self.osc_out.trigger_blink.connect(self.output_blink_widget.start_blinking)
+        self.model.toggle_trainingstate.connect(self.model_trainingstatus.toggle)
+        self.osc_in.rec_led.connect(self.rec_led.toggle)
+
+        # buttons
+        self.ui.train_btn.clicked.connect(lambda: self.osc_in.train_handler())
+        # self.ui.record_btn.clicked.connect(self.rec_btn)
+
     def model_selected(self,index):
         selection = self.ui.models.currentText()
         all_models = dict(self.model.get_classifiers()) | dict(self.model.get_regressors())
@@ -59,33 +69,40 @@ class MainApp(QMainWindow):
         # Optional z.B. ein Dialog:
         # QMessageBox.information(self, "Bye!", "Das Fenster wird jetzt geschlossen.")
 
+
+# ====== BTNS =====
+    # def rec_btn(self):
+    #     self.osc_in.recorder_handler()
+
 class BlinkWidget(QTimer):
-    def __init__(self, widget):
+    def __init__(self, widget, role):
         super().__init__(widget)
         # init blink widget
+        self.state = False
+        self.role = role
         self.blink_widget = widget
-        self.blink_timer = QTimer(self)
-        self.blink_timer.timeout.connect(self.toggle_blink)
-        self.blink_state = False
         self.default_stylesheet = self.blink_widget.styleSheet()
-         # Timer zum Beenden des Blinkens
         self.blink_duration_timer = QTimer(self)
         self.blink_duration_timer.setSingleShot(True)
         self.blink_duration_timer.timeout.connect(self.stop_blinking)
     
     # === BLINK WIDGET ===
     def start_blinking(self):
-        self.blink_state = False
-        self.blink_timer.start(100)  # 500 ms Intervall
-        self.blink_duration_timer.start(1000)  # 3 Sekunden lang blinken
-
+        self.state = True
+        self.update()
+        
     def stop_blinking(self):
-        self.blink_timer.stop()
-        self.blink_widget.setStyleSheet(self.default_stylesheet)  # zurücksetzen
+        self.state=False
+        self.update()
+        
+    def toggle(self, toggle):
+        self.state = toggle
+        self.update()
 
-    def toggle_blink(self):
-        if self.blink_state:
-            self.blink_widget.setStyleSheet(self.default_stylesheet)
-        else:
+    def update(self):
+        if self.state:
             self.blink_widget.setStyleSheet(self.default_stylesheet + "background-color: rgba(151, 243, 132, 1);")
-        self.blink_state = not self.blink_state
+            if self.role=='blink':
+                self.blink_duration_timer.start(300)  # 3mm ms lang leuchten
+        else:
+            self.blink_widget.setStyleSheet(self.default_stylesheet)  # zurücksetzen

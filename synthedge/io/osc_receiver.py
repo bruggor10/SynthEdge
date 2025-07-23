@@ -52,6 +52,7 @@ class OSCReceiver:
 
 class OSCHandler(QObject):
     trigger_blink = Signal()
+    rec_led = Signal(bool)
     def __init__(self, recorder, model, sender, ip="0.0.0.0", port=5005):
         super().__init__()
         self.ip = ip
@@ -76,7 +77,10 @@ class OSCHandler(QObject):
 
 
     def recorder_handler(self, address, recstate):
-        self.rec.is_recording = bool(recstate)
+        print(recstate)
+        recstate = bool(recstate)
+        self.rec.is_recording = recstate
+        self.rec_led.emit(recstate)
         if(self.model.is_running):
             self.model.is_running = False
             print("Disabling Run mode")
@@ -88,7 +92,7 @@ class OSCHandler(QObject):
     def load_handler(self, address):
         self.rec.load()
 
-    def train_handler(self, address):
+    def train_handler(self, *args):
         print("Now training")
         X,y = self.rec.get_data()
         self.model.train(X,y)

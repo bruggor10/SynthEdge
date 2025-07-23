@@ -17,8 +17,8 @@
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>170</y>
+      <x>20</x>
+      <y>80</y>
       <width>181</width>
       <height>89</height>
      </rect>
@@ -49,9 +49,9 @@
    <widget class="QComboBox" name="models">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>260</y>
-      <width>281</width>
+      <x>20</x>
+      <y>170</y>
+      <width>181</width>
       <height>31</height>
      </rect>
     </property>
@@ -110,6 +110,79 @@ border: 2px solid;</string>
       <x>150</x>
       <y>30</y>
       <width>21</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(246, 97, 81);
+border-color: rgb(119, 118, 123);
+border-radius: 10px;
+border: 2px solid;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="train_btn">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>120</y>
+      <width>121</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Train model</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="model_trainingstatus">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>130</y>
+      <width>21</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(246, 97, 81);
+border-color: rgb(119, 118, 123);
+border-radius: 10px;
+border: 2px solid;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="record_btn">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>70</y>
+      <width>121</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Record data</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="rec_status">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>80</y>
+      <width>20</width>
       <height>21</height>
      </rect>
     </property>

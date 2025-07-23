@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'untitledsRNaGW.ui'
+## Form generated from reading UI file 'untitledGMyteL.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.9.0
 ##
@@ -16,8 +16,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QGroupBox, QLabel,
-    QMainWindow, QMenuBar, QRadioButton, QSizePolicy,
-    QStatusBar, QVBoxLayout, QWidget)
+    QMainWindow, QMenuBar, QPushButton, QRadioButton,
+    QSizePolicy, QStatusBar, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -28,7 +28,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.groupBox = QGroupBox(self.centralwidget)
         self.groupBox.setObjectName(u"groupBox")
-        self.groupBox.setGeometry(QRect(50, 170, 181, 89))
+        self.groupBox.setGeometry(QRect(20, 80, 181, 89))
         self.verticalLayout = QVBoxLayout(self.groupBox)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.model_type_classifiers = QRadioButton(self.groupBox)
@@ -44,7 +44,7 @@ class Ui_MainWindow(object):
 
         self.models = QComboBox(self.centralwidget)
         self.models.setObjectName(u"models")
-        self.models.setGeometry(QRect(50, 260, 281, 31))
+        self.models.setGeometry(QRect(20, 170, 181, 31))
         self.data_in_blink = QLabel(self.centralwidget)
         self.data_in_blink.setObjectName(u"data_in_blink")
         self.data_in_blink.setGeometry(QRect(60, 30, 21, 21))
@@ -64,6 +64,28 @@ class Ui_MainWindow(object):
         self.data_out_blink.setGeometry(QRect(150, 30, 21, 21))
         self.data_out_blink.setAutoFillBackground(False)
         self.data_out_blink.setStyleSheet(u"background-color: rgb(246, 97, 81);\n"
+"border-color: rgb(119, 118, 123);\n"
+"border-radius: 10px;\n"
+"border: 2px solid;")
+        self.train_btn = QPushButton(self.centralwidget)
+        self.train_btn.setObjectName(u"train_btn")
+        self.train_btn.setGeometry(QRect(280, 120, 121, 41))
+        self.model_trainingstatus = QLabel(self.centralwidget)
+        self.model_trainingstatus.setObjectName(u"model_trainingstatus")
+        self.model_trainingstatus.setGeometry(QRect(410, 130, 21, 21))
+        self.model_trainingstatus.setAutoFillBackground(False)
+        self.model_trainingstatus.setStyleSheet(u"background-color: rgb(246, 97, 81);\n"
+"border-color: rgb(119, 118, 123);\n"
+"border-radius: 10px;\n"
+"border: 2px solid;")
+        self.record_btn = QPushButton(self.centralwidget)
+        self.record_btn.setObjectName(u"record_btn")
+        self.record_btn.setGeometry(QRect(280, 70, 121, 41))
+        self.rec_status = QLabel(self.centralwidget)
+        self.rec_status.setObjectName(u"rec_status")
+        self.rec_status.setGeometry(QRect(410, 80, 20, 21))
+        self.rec_status.setAutoFillBackground(False)
+        self.rec_status.setStyleSheet(u"background-color: rgb(246, 97, 81);\n"
 "border-color: rgb(119, 118, 123);\n"
 "border-radius: 10px;\n"
 "border: 2px solid;")
@@ -90,5 +112,9 @@ class Ui_MainWindow(object):
         self.label.setText(QCoreApplication.translate("MainWindow", u"Osc Input", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Osc Output", None))
         self.data_out_blink.setText("")
+        self.train_btn.setText(QCoreApplication.translate("MainWindow", u"Train model", None))
+        self.model_trainingstatus.setText("")
+        self.record_btn.setText(QCoreApplication.translate("MainWindow", u"Record data", None))
+        self.rec_status.setText("")
     # retranslateUi
 

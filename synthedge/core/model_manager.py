@@ -1,4 +1,6 @@
 import joblib
+from PySide6.QtCore import QObject, Signal
+from PySide6.QtWidgets import QMessageBox
 # Klassifikatoren
 from sklearn.neural_network import MLPClassifier
 from sklearn.ensemble import RandomForestClassifier
@@ -16,12 +18,16 @@ from sklearn.preprocessing import StandardScaler, PolynomialFeatures
 from sklearn.pipeline import Pipeline
 
 
-class ModelManager:
+class ModelManager(QObject):
+    # === gui elements connector ===
+    toggle_trainingstate = Signal(bool) # send train status to GUI led
+
     def __init__(self, **kwargs):
         """
         Initialisiert das Modell. Unterstützte Typen: Classifiers: 'mlp', 'rf', 'svm'. Regressoren: 'lin_reg', 'mlp_reg', 'rf_reg', 'svr'
         kwargs: Zusätzliche Parameter für das Modell
         """
+        super().__init__()
         self.AVAILABLE_CLASSIFIERS = {
         # Klassifikatoren
         "mlp": "MLPClassifier",
@@ -40,13 +46,13 @@ class ModelManager:
         self.is_trained = False
         self.is_running = False
         self.degree = 1
-        # self.model = self._create_model(**kwargs)
 
     def configure_model(self, model_type, **kwargs):
         self.model_type = model_type
         self.model = self._create_model(**kwargs)
         print("Configuring model: "+self.model_type)
         self.is_trained = False
+        self.toggle_trainingstate.emit(False) # send to gui
 
     def _create_model(self, **kwargs):
         """
@@ -169,8 +175,12 @@ class ModelManager:
         :param X: Feature-Matrix (z. B. numpy.ndarray)
         :param y: Zielwerte
         """
+        if len(X)==0 or len(y) == 0:
+            QMessageBox.information(None, "Fehler", "Keine Trainingsdaten vorhanden.")
+            return
         self.model.fit(X, y)
         self.is_trained = True
+        self.toggle_trainingstate.emit(True) # send to gui
         print("Training completed")
 
     def predict(self, X):
