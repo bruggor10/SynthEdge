@@ -11,7 +11,7 @@ rec = Recorder(3) # for 3 inputs
 model = ModelManager()
 model.configure_model(model_type='lin_poly_reg')
 sender = OSCSender(ip="127.0.0.1", port=5006)
-osc_in = OSCHandler(rec, model, sender, port=5002)
+osc_in = OSCHandler(rec, model, sender, port=5003)
 
 
 def main():

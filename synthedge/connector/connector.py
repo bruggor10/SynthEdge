@@ -18,7 +18,7 @@ class MainApp(QMainWindow):
         self.ui.models.currentIndexChanged.connect(self.model_selected)     
         self.ui.model_type_classifiers.toggled.connect(self.classifiers_checked)
         self.ui.model_type_regressors.toggled.connect(self.regressors_checked)
-
+        self.ui.model_type_classifiers.setChecked(True)
         
         # blink widgets
         self.input_blink_widget = BlinkWidget(self.ui.data_in_blink, role='blink')
@@ -93,10 +93,12 @@ class MainApp(QMainWindow):
             QMessageBox.critical(self, "Fehler", str(e))
 
     def on_connect_osc(self):
-        self.osc_in.port = int(self.ui.receiver_port.text())
-        self.osc_out.port = int(self.ui.sender_port.text())
-        self.osc_out.ip = self.ui.sender_ip.text()
         try:
+            if self.ui.receiver_port.text()== '' or self.ui.sender_ip.text()=='' or self.ui.sender_port.text()=='':
+                raise ValueError('ein oder mehrere Felder leer')
+            self.osc_in.port = int(self.ui.receiver_port.text())
+            self.osc_out.port = int(self.ui.sender_port.text())
+            self.osc_out.ip = self.ui.sender_ip.text()
             self.osc_out.create_sender()
             self.osc_in.stop_osc()
             self.osc_in.start_osc()

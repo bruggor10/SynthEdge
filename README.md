@@ -20,5 +20,23 @@ This is an initial commit. The project is still under development. Current funct
 		
 ## To do
 - dynamic time warping
-- create GUI
 	
+
+
+## How to develop
+Git clone the repository
+Create virtual environment:
+```
+python3 -m venv .env
+source .env/bin/activate
+```
+
+install requirements:
+```
+pip install -r requirements.txt
+```
+
+## how to build
+create virtual environment and source it(see above)
+build with 
+`pyinstaller --onefile main.py`
