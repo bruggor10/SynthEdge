@@ -6,15 +6,14 @@ from ..core.model_manager import ModelManager
 import sys
 
 class MainApp(QMainWindow):
-    def __init__(self, osc_in, model, sender):
+    def __init__(self, osc_in, model, sender, recorder):
         super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.osc_in=osc_in
         self.osc_out = sender
         self.model = model
-        
-        self.recstate = False
+        self.rec = recorder
 
         self.ui.models.currentIndexChanged.connect(self.model_selected)     
         self.ui.model_type_classifiers.toggled.connect(self.classifiers_checked)
@@ -25,16 +24,25 @@ class MainApp(QMainWindow):
         self.input_blink_widget = BlinkWidget(self.ui.data_in_blink, role='blink')
         self.output_blink_widget = BlinkWidget(self.ui.data_out_blink, role='blink')
         self.model_trainingstatus = BlinkWidget(self.ui.model_trainingstatus, role='led')
+        self.model_runstatus = BlinkWidget(self.ui.model_runstatus, role='led')
         self.rec_led = BlinkWidget(self.ui.rec_status, role='led')
+
+        self.osc_in.run_led.connect(self.model_runstatus.toggle)
         self.osc_in.trigger_blink.connect(self.input_blink_widget.start_blinking)
         self.osc_out.trigger_blink.connect(self.output_blink_widget.start_blinking)
         self.model.toggle_trainingstate.connect(self.model_trainingstatus.toggle)
         self.osc_in.rec_led.connect(self.rec_led.toggle)
 
+        # init textfields for osc connection
+        self.ui.receiver_port.setText(str(self.osc_in.port))
+        self.ui.sender_ip.setText(str(self.osc_out.ip))
+        self.ui.sender_port.setText(str(self.osc_out.port))
         # buttons
-        self.ui.train_btn.clicked.connect(lambda: self.osc_in.train_handler())
-        # self.ui.record_btn.clicked.connect(self.rec_btn)
-
+        self.ui.train_btn.clicked.connect(self.on_train_btn)
+        self.ui.run_btn.clicked.connect(self.on_run_btn)
+        self.ui.record_btn.clicked.connect(self.on_rec_btn)
+        self.ui.connect_btn.clicked.connect(self.on_connect_osc)
+        
     def model_selected(self,index):
         selection = self.ui.models.currentText()
         all_models = dict(self.model.get_classifiers()) | dict(self.model.get_regressors())
@@ -50,7 +58,6 @@ class MainApp(QMainWindow):
         if checked:
             self.ui.models.clear()
             self.ui.models.addItems(list(k for v, k in self.model.get_regressors())) 
-    
     
     
     def closeEvent(self, event):
@@ -71,9 +78,31 @@ class MainApp(QMainWindow):
 
 
 # ====== BTNS =====
-    # def rec_btn(self):
-    #     self.osc_in.recorder_handler()
+    def on_rec_btn(self):
+        recstate = not bool(self.rec.is_recording)
+        self.osc_in.recorder_handler(None, recstate)
 
+    def on_run_btn(self):
+        runstate = not bool(self.model.is_running)
+        self.osc_in.run_handler(None, runstate)
+
+    def on_train_btn(self):
+        try:
+            self.osc_in.train_handler()
+        except ValueError as e:
+            QMessageBox.critical(self, "Fehler", str(e))
+
+    def on_connect_osc(self):
+        self.osc_in.port = int(self.ui.receiver_port.text())
+        self.osc_out.port = int(self.ui.sender_port.text())
+        self.osc_out.ip = self.ui.sender_ip.text()
+        try:
+            self.osc_out.create_sender()
+            self.osc_in.stop_osc()
+            self.osc_in.start_osc()
+            QMessageBox.information(self, 'Verbindung erfolgreich', f"Verbunden! Sender IP {self.osc_out.ip}, Sender Port {self.osc_out.port}")
+        except Exception as e:
+            QMessageBox.critical(self, "Fehler", str(e))
 class BlinkWidget(QTimer):
     def __init__(self, widget, role):
         super().__init__(widget)

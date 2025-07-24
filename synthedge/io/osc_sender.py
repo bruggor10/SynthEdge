@@ -5,12 +5,18 @@ class OSCSender(QObject):
     trigger_blink = Signal()
     def __init__(self, ip, port):
         super().__init__()
+        self.ip=ip
+        self.port=port
         """
         Initialisiert den OSC Client.
         :param ip: IP-Adresse des OSC-Servers (Empfängers)
         :param port: Port des OSC-Servers
         """
-        self.client = udp_client.SimpleUDPClient(ip, port)
+        self.create_sender()
+
+    def create_sender(self):
+        self.client = udp_client.SimpleUDPClient(self.ip, self.port)
+        # print(self.client)
 
     def send_message(self, address, *args):
         """

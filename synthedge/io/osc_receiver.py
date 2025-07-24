@@ -1,6 +1,7 @@
 from pythonosc import dispatcher
 from pythonosc import osc_server
 from PySide6.QtCore import QObject, Signal
+from PySide6.QtWidgets import QMessageBox
 import numpy as np
 import threading
 
@@ -53,9 +54,10 @@ class OSCReceiver:
 class OSCHandler(QObject):
     trigger_blink = Signal()
     rec_led = Signal(bool)
-    def __init__(self, recorder, model, sender, ip="0.0.0.0", port=5005):
+    run_led = Signal(bool)
+    def __init__(self, recorder, model, sender, port):
         super().__init__()
-        self.ip = ip
+        self.ip = "0.0.0.0"
         self.port = port
         self.rec = recorder
         self.model = model
@@ -73,11 +75,13 @@ class OSCHandler(QObject):
                 print(*self.model.predict(X_input))
                 self.sender.send_message("/synthedge/outputs", *self.model.predict(X_input))
             else:
+                # raise ValueError('Modell nicht trainiert')
                 print("Train model first")
+                # QMessageBox.critical(None, "Fehler", "Etwas ist schiefgelaufen")
+
 
 
     def recorder_handler(self, address, recstate):
-        print(recstate)
         recstate = bool(recstate)
         self.rec.is_recording = recstate
         self.rec_led.emit(recstate)
@@ -93,7 +97,6 @@ class OSCHandler(QObject):
         self.rec.load()
 
     def train_handler(self, *args):
-        print("Now training")
         X,y = self.rec.get_data()
         self.model.train(X,y)
 
@@ -107,6 +110,7 @@ class OSCHandler(QObject):
     def run_handler(self, address, runstate):
         self.model.is_running = bool(runstate)
         print(f"Running state: {self.model.is_running}")
+        self.run_led.emit(self.model.is_running)
         if(self.rec.is_recording):
             print("Disabling recording of data")
             self.rec.is_recording = False

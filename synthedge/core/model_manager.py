@@ -176,8 +176,7 @@ class ModelManager(QObject):
         :param y: Zielwerte
         """
         if len(X)==0 or len(y) == 0:
-            QMessageBox.information(None, "Fehler", "Keine Trainingsdaten vorhanden.")
-            return
+            raise ValueError("keine Trainingsdaten vorhanden")
         self.model.fit(X, y)
         self.is_trained = True
         self.toggle_trainingstate.emit(True) # send to gui
