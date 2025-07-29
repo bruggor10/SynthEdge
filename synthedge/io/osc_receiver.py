@@ -71,9 +71,10 @@ class OSCHandler(QObject):
             self.rec.add_input(list(args))
         if(self.model.is_running):
             if self.model.is_trained: 
-                X_input = np.array(args).reshape(1,-1)
+                X_input = np.array(args).reshape(1, -1)
+                # print(X_input.shape)
                 print(*self.model.predict(X_input))
-                self.sender.send_message("/synthedge/outputs", *self.model.predict(X_input))
+                # self.sender.send_message("/synthedge/outputs", *self.model.predict(X_input))
             else:
                 # raise ValueError('Modell nicht trainiert')
                 print("Train model first")
@@ -98,14 +99,16 @@ class OSCHandler(QObject):
 
     def train_handler(self, *args):
         X,y = self.rec.get_data()
-        self.model.train(X,y)
+        # print(X.shape)
+        # print(y.reshape((y.shape[0], y.shape[2])).shape)
+        self.model.train(X, y.reshape((y.shape[0], y.shape[2])))
 
     def reset_handler(self, address):
         self.rec.reset()
         self.model.is_trained = False
 
-    def label_handler(self, address, label):
-        self.rec.set_label(label)
+    def label_handler(self, address, *args):
+        self.rec.set_label(args)
 
     def run_handler(self, address, runstate):
         self.model.is_running = bool(runstate)

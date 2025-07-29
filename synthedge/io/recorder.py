@@ -2,7 +2,7 @@ import numpy as np
 from threading import Lock
 
 class Recorder:
-    def __init__(self, input_dim, auto_label=True):
+    def __init__(self, auto_label=True):
         """
         Initialisiert den Recorder.
         :param input_dim: Anzahl der Input-Features pro Datenpunkt
@@ -11,7 +11,6 @@ class Recorder:
         self.inputs = []
         self.labels = []
         self.current_label = 0
-        self.input_dim = input_dim
         self.lock = Lock()
         self.auto_label = auto_label
         self.is_recording = False
@@ -21,26 +20,22 @@ class Recorder:
         Fügt einen neuen Eingabevektor hinzu.
         :param data: Tuple oder Liste mit Features (z. B. vom OSC-Handler)
         """
-        if len(data) != self.input_dim:
-            print(f"⚠️ Erwartet {self.input_dim} Werte, aber bekommen: {len(data)}")
-            return
-
         with self.lock:
-            self.inputs.append(list(data))
+            self.inputs.append(np.array(data))
             if self.auto_label:
                 self.labels.append(self.current_label)
             else:
                 self.labels.append(None)  # Kann später gesetzt werden
             print(f"✅ Eingabe aufgenommen: {data}")
 
-    def set_label(self, label):
+    def set_label(self, *args):
         """
         Setzt das aktuelle Label, das beim nächsten Input verwendet wird.
         :param label: z. B. int oder str
         """
         with self.lock:
-            self.current_label = label
-            print(f"🔖 Aktuelles Label gesetzt: {label}")
+            self.current_label = np.array(args)
+            print(f"🔖 Aktuelles Label gesetzt: {np.array(args).shape}")
 
     def save(self, input_path="inputs.npy", label_path="labels.npy"):
         """

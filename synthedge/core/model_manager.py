@@ -118,7 +118,7 @@ class ModelManager(QObject):
                 'max_depth':10,               # Maximale Tiefe jedes Baums; verhindert Overfitting bei kleinen Daten
                 'min_samples_split':4,        # Ein Knoten wird nur gesplittet, wenn er mindestens 4 Samples enthält
                 'min_samples_leaf':2,         # Mindestens 2 Samples müssen in einem Blatt verbleiben → verhindert zu tiefe Blätter
-                'max_features':'auto',        # Anzahl der Merkmale, die bei einem Split betrachtet werden
+                'max_features':None,        # Anzahl der Merkmale, die bei einem Split betrachtet werden
                                             # 'auto' : alle Features bei Regressor (entspricht None in neueren Versionen)
                 'bootstrap':True,             # Stichprobe mit Zurücklegen → für Vielfalt in Bäumen
                 'oob_score':True,             # Nutze "Out-of-Bag"-Samples zur internen Modellbewertung (nur wenn bootstrap:True)
@@ -177,6 +177,8 @@ class ModelManager(QObject):
         """
         if len(X)==0 or len(y) == 0:
             raise ValueError("keine Trainingsdaten vorhanden")
+        print(f'Shape von X: {X.shape}')
+        print(f'Shape von y: {y.shape}')
         self.model.fit(X, y)
         self.is_trained = True
         self.toggle_trainingstate.emit(True) # send to gui

@@ -7,7 +7,7 @@ from PySide6.QtWidgets import QApplication
 import sys
 
 # ==== global objects =====
-rec = Recorder(3) # for 3 inputs
+rec = Recorder() # for 3 inputs
 model = ModelManager()
 model.configure_model(model_type='lin_poly_reg')
 sender = OSCSender(ip="127.0.0.1", port=5006)
