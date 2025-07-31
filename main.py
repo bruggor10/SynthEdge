@@ -4,6 +4,7 @@ from synthedge.io.recorder import *
 from synthedge.core.model_manager import *
 from synthedge.connector.connector import MainApp
 from PySide6.QtWidgets import QApplication
+from PySide6.QtGui import QIcon
 import sys
 
 # ==== global objects =====
