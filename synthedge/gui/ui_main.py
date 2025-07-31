@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'untitledCstYOg.ui'
+## Form generated from reading UI file 'untitledGnanyQ.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.9.0
 ##
@@ -16,20 +16,20 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QGroupBox, QLabel,
-    QLineEdit, QMainWindow, QMenuBar, QPushButton,
-    QRadioButton, QSizePolicy, QStatusBar, QVBoxLayout,
-    QWidget)
+    QLineEdit, QMainWindow, QMenuBar, QPlainTextEdit,
+    QPushButton, QRadioButton, QSizePolicy, QStatusBar,
+    QVBoxLayout, QWidget)
 
 class Ui_SynthEdge(object):
     def setupUi(self, SynthEdge):
         if not SynthEdge.objectName():
             SynthEdge.setObjectName(u"SynthEdge")
-        SynthEdge.resize(555, 368)
+        SynthEdge.resize(507, 460)
         self.centralwidget = QWidget(SynthEdge)
         self.centralwidget.setObjectName(u"centralwidget")
         self.groupBox = QGroupBox(self.centralwidget)
         self.groupBox.setObjectName(u"groupBox")
-        self.groupBox.setGeometry(QRect(10, 160, 181, 89))
+        self.groupBox.setGeometry(QRect(20, 150, 181, 89))
         self.verticalLayout = QVBoxLayout(self.groupBox)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.model_type_classifiers = QRadioButton(self.groupBox)
@@ -45,7 +45,7 @@ class Ui_SynthEdge(object):
 
         self.models = QComboBox(self.centralwidget)
         self.models.setObjectName(u"models")
-        self.models.setGeometry(QRect(10, 250, 181, 31))
+        self.models.setGeometry(QRect(20, 240, 181, 31))
         self.data_in_blink = QLabel(self.centralwidget)
         self.data_in_blink.setObjectName(u"data_in_blink")
         self.data_in_blink.setGeometry(QRect(270, 20, 21, 21))
@@ -70,10 +70,10 @@ class Ui_SynthEdge(object):
 "border: 2px solid;")
         self.train_btn = QPushButton(self.centralwidget)
         self.train_btn.setObjectName(u"train_btn")
-        self.train_btn.setGeometry(QRect(330, 70, 121, 41))
+        self.train_btn.setGeometry(QRect(330, 60, 121, 21))
         self.model_trainingstatus = QLabel(self.centralwidget)
         self.model_trainingstatus.setObjectName(u"model_trainingstatus")
-        self.model_trainingstatus.setGeometry(QRect(460, 80, 21, 21))
+        self.model_trainingstatus.setGeometry(QRect(460, 60, 21, 21))
         self.model_trainingstatus.setAutoFillBackground(False)
         self.model_trainingstatus.setStyleSheet(u"background-color: rgb(246, 97, 81);\n"
 "border-color: rgb(119, 118, 123);\n"
@@ -81,11 +81,11 @@ class Ui_SynthEdge(object):
 "border: 2px solid;")
         self.record_btn = QPushButton(self.centralwidget)
         self.record_btn.setObjectName(u"record_btn")
-        self.record_btn.setGeometry(QRect(330, 20, 121, 41))
+        self.record_btn.setGeometry(QRect(330, 20, 121, 21))
         self.record_btn.setCheckable(False)
         self.rec_status = QLabel(self.centralwidget)
         self.rec_status.setObjectName(u"rec_status")
-        self.rec_status.setGeometry(QRect(460, 30, 20, 21))
+        self.rec_status.setGeometry(QRect(460, 20, 20, 21))
         self.rec_status.setAutoFillBackground(False)
         self.rec_status.setStyleSheet(u"background-color: rgb(246, 97, 81);\n"
 "border-color: rgb(119, 118, 123);\n"
@@ -93,7 +93,7 @@ class Ui_SynthEdge(object):
 "border: 2px solid;")
         self.model_runstatus = QLabel(self.centralwidget)
         self.model_runstatus.setObjectName(u"model_runstatus")
-        self.model_runstatus.setGeometry(QRect(460, 130, 20, 21))
+        self.model_runstatus.setGeometry(QRect(460, 100, 20, 21))
         self.model_runstatus.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.model_runstatus.setAutoFillBackground(False)
         self.model_runstatus.setStyleSheet(u"background-color: rgb(246, 97, 81);\n"
@@ -102,7 +102,7 @@ class Ui_SynthEdge(object):
 "border: 2px solid;")
         self.run_btn = QPushButton(self.centralwidget)
         self.run_btn.setObjectName(u"run_btn")
-        self.run_btn.setGeometry(QRect(330, 120, 120, 41))
+        self.run_btn.setGeometry(QRect(330, 100, 120, 21))
         self.run_btn.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.run_btn.setCheckable(False)
         self.sender_ip = QLineEdit(self.centralwidget)
@@ -119,14 +119,23 @@ class Ui_SynthEdge(object):
         self.connect_btn.setGeometry(QRect(20, 80, 261, 23))
         self.save_btn = QPushButton(self.centralwidget)
         self.save_btn.setObjectName(u"save_btn")
-        self.save_btn.setGeometry(QRect(230, 250, 121, 23))
+        self.save_btn.setGeometry(QRect(330, 190, 121, 23))
         self.load_btn = QPushButton(self.centralwidget)
         self.load_btn.setObjectName(u"load_btn")
-        self.load_btn.setGeometry(QRect(360, 250, 121, 23))
+        self.load_btn.setGeometry(QRect(330, 220, 121, 23))
+        self.label_3 = QLabel(self.centralwidget)
+        self.label_3.setObjectName(u"label_3")
+        self.label_3.setGeometry(QRect(200, 290, 58, 15))
+        self.console = QPlainTextEdit(self.centralwidget)
+        self.console.setObjectName(u"console")
+        self.console.setGeometry(QRect(50, 330, 411, 81))
+        self.reset_btn = QPushButton(self.centralwidget)
+        self.reset_btn.setObjectName(u"reset_btn")
+        self.reset_btn.setGeometry(QRect(20, 280, 84, 23))
         SynthEdge.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(SynthEdge)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 555, 20))
+        self.menubar.setGeometry(QRect(0, 0, 507, 20))
         SynthEdge.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(SynthEdge)
         self.statusbar.setObjectName(u"statusbar")
@@ -139,24 +148,26 @@ class Ui_SynthEdge(object):
 
     def retranslateUi(self, SynthEdge):
         SynthEdge.setWindowTitle(QCoreApplication.translate("SynthEdge", u"SynthEdge", None))
-        self.groupBox.setTitle(QCoreApplication.translate("SynthEdge", u"W\u00e4hle Art des Modelles", None))
-        self.model_type_classifiers.setText(QCoreApplication.translate("SynthEdge", u"Klassifikatoren", None))
-        self.model_type_regressors.setText(QCoreApplication.translate("SynthEdge", u"Regressoren", None))
+        self.groupBox.setTitle(QCoreApplication.translate("SynthEdge", u"Select model type", None))
+        self.model_type_classifiers.setText(QCoreApplication.translate("SynthEdge", u"Classifiers", None))
+        self.model_type_regressors.setText(QCoreApplication.translate("SynthEdge", u"Regressors", None))
         self.data_in_blink.setText("")
         self.label.setText(QCoreApplication.translate("SynthEdge", u"Osc Input", None))
         self.label_2.setText(QCoreApplication.translate("SynthEdge", u"Osc Output", None))
         self.data_out_blink.setText("")
-        self.train_btn.setText(QCoreApplication.translate("SynthEdge", u"Modell trainieren", None))
+        self.train_btn.setText(QCoreApplication.translate("SynthEdge", u"Train model", None))
         self.model_trainingstatus.setText("")
-        self.record_btn.setText(QCoreApplication.translate("SynthEdge", u"Daten aufnehmen", None))
+        self.record_btn.setText(QCoreApplication.translate("SynthEdge", u"Record inputs", None))
         self.rec_status.setText("")
         self.model_runstatus.setText("")
-        self.run_btn.setText(QCoreApplication.translate("SynthEdge", u"Ausf\u00fchren", None))
-        self.sender_ip.setPlaceholderText(QCoreApplication.translate("SynthEdge", u"Ip Adresse", None))
+        self.run_btn.setText(QCoreApplication.translate("SynthEdge", u"Run", None))
+        self.sender_ip.setPlaceholderText(QCoreApplication.translate("SynthEdge", u"Ip Address", None))
         self.sender_port.setPlaceholderText(QCoreApplication.translate("SynthEdge", u"Port", None))
         self.receiver_port.setPlaceholderText(QCoreApplication.translate("SynthEdge", u"Port", None))
-        self.connect_btn.setText(QCoreApplication.translate("SynthEdge", u"Verbinden", None))
-        self.save_btn.setText(QCoreApplication.translate("SynthEdge", u"Projekt speichern", None))
-        self.load_btn.setText(QCoreApplication.translate("SynthEdge", u"Projekt laden", None))
+        self.connect_btn.setText(QCoreApplication.translate("SynthEdge", u"Connect", None))
+        self.save_btn.setText(QCoreApplication.translate("SynthEdge", u"Save project", None))
+        self.load_btn.setText(QCoreApplication.translate("SynthEdge", u"Load project", None))
+        self.label_3.setText(QCoreApplication.translate("SynthEdge", u"Console", None))
+        self.reset_btn.setText(QCoreApplication.translate("SynthEdge", u"Reset model", None))
     # retranslateUi
 

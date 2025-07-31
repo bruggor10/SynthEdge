@@ -58,9 +58,10 @@ class OSCHandler(QObject):
     trigger_save = Signal(str)
     trigger_load = Signal(str)
     error_occurred = Signal(str)
+    logger = Signal(str)
     def __init__(self, recorder, model, sender, port):
         super().__init__()
-        self.ip = "127.0.0.1"
+        self.ip = "0.0.0.0"
         self.port = port
         self.rec = recorder
         self.model = model
@@ -75,10 +76,9 @@ class OSCHandler(QObject):
         if(self.model.is_running):
             if self.model.is_trained: 
                 X_input = np.array(args).reshape(1, -1)
-                print(*self.model.predict(X_input).tolist())
                 self.sender.send_message("/synthedge/outputs", *self.model.predict(X_input).tolist())
             else:
-                print("Train model first")
+                self.logger.emit("Train model first")
 
 
 
@@ -88,8 +88,10 @@ class OSCHandler(QObject):
         self.rec_led.emit(recstate)
         if(self.model.is_running):
             self.model.is_running = False
-            print("Disabling Run mode")
-        print(f"Recording: {self.rec.is_recording}")
+            self.logger.emit("Disabling Run mode")
+        # print(f"Recording: {self.rec.is_recording}")
+        self.logger.emit(f"Recording: {self.rec.is_recording}")
+
 
     def save_handler(self, address, path):
         self.trigger_save.emit(path)
@@ -105,6 +107,7 @@ class OSCHandler(QObject):
         self.rec.reset()
         self.model.is_trained = False
         self.model.toggle_trainingstate.emit(False)
+        self.run_led.emit(self.model.is_running)
 
     def label_handler(self, address, *args):
         self.rec.set_label(args)
@@ -112,14 +115,14 @@ class OSCHandler(QObject):
     def run_handler(self, address, runstate):
         if self.model.is_trained:
             self.model.is_running = bool(runstate)
-            print(f"Running state: {self.model.is_running}")
+            self.logger.emit(f"Running state: {self.model.is_running}")
             self.run_led.emit(self.model.is_running)
             if(self.rec.is_recording):
-                print("Disabling recording of data")
+                self.logger.emit("Disabling recording of data")
                 self.rec.is_recording = False
         else:
             self.error_occurred.emit("Train model first")
-            print("Train model first")
+            self.logger.emit("Train model first")
 
 
 

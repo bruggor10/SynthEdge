@@ -37,6 +37,9 @@ class MainApp(QMainWindow):
         self.osc_in.trigger_save.connect(self.save_to_file)
         self.osc_in.trigger_load.connect(self.load_from_file)
         self.osc_in.error_occurred.connect(lambda: QMessageBox.critical(self, 'Fehler', "Modell nicht trainiert!"))
+        self.osc_in.logger.connect(self.log)
+        self.model.logger.connect(self.log)
+        self.rec.logger.connect(self.log)
 
         # init textfields for osc connection
         self.ui.receiver_port.setText(str(self.osc_in.port))
@@ -49,6 +52,7 @@ class MainApp(QMainWindow):
         self.ui.connect_btn.clicked.connect(self.on_connect_osc)
         self.ui.save_btn.clicked.connect(self.on_save)
         self.ui.load_btn.clicked.connect(self.on_load)
+        self.ui.reset_btn.clicked.connect(self.on_reset)
         
     def model_selected(self,index):
         selection = self.ui.models.currentText()
@@ -85,6 +89,9 @@ class MainApp(QMainWindow):
 
 
 # ====== BTNS =====
+    def on_reset(self):
+        self.osc_in.reset_handler(None)
+
     def on_rec_btn(self):
         recstate = not bool(self.rec.is_recording)
         self.osc_in.recorder_handler(None, recstate)
@@ -112,7 +119,7 @@ class MainApp(QMainWindow):
     def on_load(self):
         filename, _ = QFileDialog.getOpenFileName(
             self,
-            "Projekt laden",
+            "Projekt laboolden",
             "",
             "Projektdateien (*.npz);;Alle Dateien (*)"
         )
@@ -123,12 +130,12 @@ class MainApp(QMainWindow):
         if filename:
             if not filename.endswith(".npz"):
                 filename += ".npz"
-            print(f"Ausgewählte Datei zum Laden: {filename}")
+            self.log(f"Ausgewählte Datei zum Laden: {filename}")
 
             # Laden
             try: 
                 data = np.load(filename, allow_pickle=True)
-                print(data["config"])
+                # print(data["config"])
                 self.ui.receiver_port.setText(data["config"][0])
                 self.ui.sender_ip.setText(data["config"][1])
                 self.ui.sender_port.setText(data["config"][2])
@@ -146,7 +153,7 @@ class MainApp(QMainWindow):
         if filename:
             if not filename.endswith(".npz"):
                 filename += ".npz"
-            print(f"Ausgewählte Datei zum Speichern: {filename}")
+            self.log(f"Ausgewählte Datei zum Speichern: {filename}")
 
             gui_config = np.array([
                 self.ui.receiver_port.text(),
@@ -174,6 +181,9 @@ class MainApp(QMainWindow):
         except Exception as e:
             QMessageBox.critical(self, "Fehler", str(e))
 
+    def log(self, msg):
+        self.ui.console.appendPlainText(msg)
+        print(msg)
 
 class BlinkWidget(QTimer):
     def __init__(self, widget, role):

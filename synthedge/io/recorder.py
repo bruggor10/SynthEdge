@@ -1,7 +1,9 @@
 import numpy as np
 from threading import Lock
+from PySide6.QtCore import QObject, Signal
 
-class Recorder:
+class Recorder(QObject):
+    logger = Signal(str)
     def __init__(self, auto_label=True):
         """
         Initialisiert den Recorder.
@@ -14,6 +16,7 @@ class Recorder:
         self.lock = Lock()
         self.auto_label = auto_label
         self.is_recording = False
+        super().__init__()
 
     def add_input(self, data):
         """
@@ -26,7 +29,7 @@ class Recorder:
                 self.labels.append(self.current_label)
             else:
                 self.labels.append(None)  # Kann später gesetzt werden
-            print(f"✅ Eingabe aufgenommen: {data}")
+            self.logger.emit(f"✅ Eingabe aufgenommen: {data}")
 
     def set_label(self, *args):
         """
@@ -35,7 +38,7 @@ class Recorder:
         """
         with self.lock:
             self.current_label = np.array(args)
-            print(f"🔖 Aktuelles Label gesetzt: {np.array(args)}")
+            self.logger.emit(f"🔖 Aktuelles Label gesetzt: {np.array(args)}")
 
     # def save(self, input_path="inputs.npy", label_path="labels.npy"):
     #     """
@@ -55,7 +58,7 @@ class Recorder:
         with self.lock:
             self.inputs = []
             self.labels = []
-            print("🔄 Aufnahme zurückgesetzt.")
+            self.logger.emit("🔄 Aufnahme zurückgesetzt.")
 
     # def load(self, input_path="inputs.npy", label_path="labels.npy"):
     #     """

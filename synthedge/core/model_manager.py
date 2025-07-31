@@ -21,7 +21,7 @@ from sklearn.pipeline import Pipeline
 class ModelManager(QObject):
     # === gui elements connector ===
     toggle_trainingstate = Signal(bool) # send train status to GUI led
-
+    logger = Signal(str)
     def __init__(self, **kwargs):
         """
         Initialisiert das Modell. Unterstützte Typen: Classifiers: 'mlp', 'rf', 'svm'. Regressoren: 'lin_reg', 'mlp_reg', 'rf_reg', 'svr'
@@ -50,7 +50,7 @@ class ModelManager(QObject):
     def configure_model(self, model_type, **kwargs):
         self.model_type = model_type
         self.model = self._create_model(**kwargs)
-        print("Configuring model: "+self.model_type)
+        self.logger.emit(f"Configuring model: {self.model_type}")
         self.is_trained = False
         self.toggle_trainingstate.emit(False) # send to gui
 
@@ -70,7 +70,7 @@ class ModelManager(QObject):
                 'early_stopping':False,         # nicht nötig bei `solver:'lbfgs'`
                 'random_state':42
             }
-            # print("mlp created")
+            # self.logger.emit("mlp created")
             params = {**default_params, **kwargs}
             model = MLPClassifier(**params)
 
@@ -86,7 +86,7 @@ class ModelManager(QObject):
                 'class_weight':'balanced',    # Automatische Gewichtung der Klassen bei unbalancierten Daten
                 'random_state':42             # Für reproduzierbare Ergebnisse
             }
-            # print("rf created")
+            # self.logger.emit("rf created")
             params = {**default_params, **kwargs}
             model = RandomForestClassifier(**params)
             
@@ -177,12 +177,12 @@ class ModelManager(QObject):
         """
         if len(X)==0 or len(y) == 0:
             raise ValueError("keine Trainingsdaten vorhanden")
-        print(f'Shape von X: {X.shape}')
-        print(f'Shape von y: {y.shape}')
+        self.logger.emit(f'Shape von X: {X.shape}')
+        self.logger.emit(f'Shape von y: {y.shape}')
         self.model.fit(X, y)
         self.is_trained = True
         self.toggle_trainingstate.emit(True) # send to gui
-        print("Training completed")
+        self.logger.emit("Training completed")
 
     def predict(self, X):
         """
