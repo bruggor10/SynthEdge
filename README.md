@@ -2,9 +2,9 @@
 Machine Learning tool for creative music applications. Inspired by WEKINATOR (https://github.com/fiebrink1/wekinator), but written in Python and on a more modern tech stack
 
 ## under development
-This is an initial commit. The project is still under development. Current functionality:
+This project is under development. Use it at your own risk. Current functionality:
 - OSC Input and output
-- save and load training data
+- save and load projects
 - train and predict with the following models:
 	- Classifiers:
 		- MLP
@@ -16,11 +16,18 @@ This is an initial commit. The project is still under development. Current funct
 		- Linear / Polynomial Regression
 		- MLP Regressor
 		- Support Vector Regressor
-- basic model selection over GUI
+- model selection and OSC configurationover GUI
 		
 ## To do
 - dynamic time warping
-	
+- configuration of models
+- probability
+- docs
+
+
+## How to use the tools
+- Docs will follow soon.
+- for now, check osc_example.pd file
 
 
 ## How to develop
