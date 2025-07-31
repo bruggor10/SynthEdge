@@ -35,18 +35,18 @@ class Recorder:
         """
         with self.lock:
             self.current_label = np.array(args)
-            print(f"🔖 Aktuelles Label gesetzt: {np.array(args).shape}")
+            print(f"🔖 Aktuelles Label gesetzt: {np.array(args)}")
 
-    def save(self, input_path="inputs.npy", label_path="labels.npy"):
-        """
-        Speichert die aufgenommenen Daten.
-        """
-        with self.lock:
-            X = np.array(self.inputs)
-            y = np.array(self.labels)
-            np.save(input_path, X)
-            np.save(label_path, y)
-            print(f"💾 Daten gespeichert unter: {input_path}, {label_path}")
+    # def save(self, input_path="inputs.npy", label_path="labels.npy"):
+    #     """
+    #     Speichert die aufgenommenen Daten.
+    #     """
+    #     with self.lock:
+    #         X = np.array(self.inputs)
+    #         y = np.array(self.labels)
+    #         np.save(input_path, X)
+    #         np.save(label_path, y)
+    #         print(f"💾 Daten gespeichert unter: {input_path}, {label_path}")
 
     def reset(self):
         """
@@ -57,19 +57,19 @@ class Recorder:
             self.labels = []
             print("🔄 Aufnahme zurückgesetzt.")
 
-    def load(self, input_path="inputs.npy", label_path="labels.npy"):
-        """
-        Lädt gespeicherte Daten aus .npy Dateien und ersetzt die aktuellen Inhalte.
-        """
-        with self.lock:
-            try:
-                self.inputs = np.load(input_path).tolist()
-                self.labels = np.load(label_path).tolist()
-                print(f"📂 Daten geladen aus: {input_path}, {label_path}")
-            except FileNotFoundError:
-                print(f"⚠️ Dateien nicht gefunden: {input_path} oder {label_path}")
-            except Exception as e:
-                print(f"⚠️ Fehler beim Laden: {e}")
+    # def load(self, input_path="inputs.npy", label_path="labels.npy"):
+    #     """
+    #     Lädt gespeicherte Daten aus .npy Dateien und ersetzt die aktuellen Inhalte.
+    #     """
+    #     with self.lock:
+    #         try:
+    #             self.inputs = np.load(input_path).tolist()
+    #             self.labels = np.load(label_path).tolist()
+    #             print(f"📂 Daten geladen aus: {input_path}, {label_path}")
+    #         except FileNotFoundError:
+    #             print(f"⚠️ Dateien nicht gefunden: {input_path} oder {label_path}")
+    #         except Exception as e:
+    #             print(f"⚠️ Fehler beim Laden: {e}")
 
     def get_data(self):
         X = np.array(self.inputs)

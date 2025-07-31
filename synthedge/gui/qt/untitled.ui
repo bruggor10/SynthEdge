@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>SynthEdge</class>
+ <widget class="QMainWindow" name="SynthEdge">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>555</width>
-    <height>368</height>
+    <width>492</width>
+    <height>315</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>SynthEdge</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>160</y>
+      <x>20</x>
+      <y>150</y>
       <width>181</width>
       <height>89</height>
      </rect>
     </property>
     <property name="title">
-     <string>Wähle Art des Modelles</string>
+     <string>Select model type</string>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QRadioButton" name="model_type_classifiers">
        <property name="text">
-        <string>Klassifikatoren</string>
+        <string>Classifiers</string>
        </property>
       </widget>
      </item>
@@ -40,7 +40,7 @@
         <cursorShape>ArrowCursor</cursorShape>
        </property>
        <property name="text">
-        <string>Regressoren</string>
+        <string>Regressors</string>
        </property>
       </widget>
      </item>
@@ -49,8 +49,8 @@
    <widget class="QComboBox" name="models">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>250</y>
+      <x>20</x>
+      <y>240</y>
       <width>181</width>
       <height>31</height>
      </rect>
@@ -129,21 +129,21 @@ border: 2px solid;</string>
    <widget class="QPushButton" name="train_btn">
     <property name="geometry">
      <rect>
-      <x>290</x>
-      <y>210</y>
+      <x>330</x>
+      <y>60</y>
       <width>121</width>
-      <height>41</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>Modell trainieren</string>
+     <string>Train model</string>
     </property>
    </widget>
    <widget class="QLabel" name="model_trainingstatus">
     <property name="geometry">
      <rect>
-      <x>420</x>
-      <y>220</y>
+      <x>460</x>
+      <y>60</y>
       <width>21</width>
       <height>21</height>
      </rect>
@@ -164,14 +164,14 @@ border: 2px solid;</string>
    <widget class="QPushButton" name="record_btn">
     <property name="geometry">
      <rect>
-      <x>290</x>
-      <y>160</y>
+      <x>330</x>
+      <y>20</y>
       <width>121</width>
-      <height>41</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>Daten aufnehmen</string>
+     <string>Record inputs</string>
     </property>
     <property name="checkable">
      <bool>false</bool>
@@ -180,8 +180,8 @@ border: 2px solid;</string>
    <widget class="QLabel" name="rec_status">
     <property name="geometry">
      <rect>
-      <x>420</x>
-      <y>170</y>
+      <x>460</x>
+      <y>20</y>
       <width>20</width>
       <height>21</height>
      </rect>
@@ -202,8 +202,8 @@ border: 2px solid;</string>
    <widget class="QLabel" name="model_runstatus">
     <property name="geometry">
      <rect>
-      <x>420</x>
-      <y>270</y>
+      <x>460</x>
+      <y>100</y>
       <width>20</width>
       <height>21</height>
      </rect>
@@ -227,17 +227,17 @@ border: 2px solid;</string>
    <widget class="QPushButton" name="run_btn">
     <property name="geometry">
      <rect>
-      <x>290</x>
-      <y>260</y>
+      <x>330</x>
+      <y>100</y>
       <width>120</width>
-      <height>41</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="layoutDirection">
      <enum>Qt::LayoutDirection::LeftToRight</enum>
     </property>
     <property name="text">
-     <string>Ausführen</string>
+     <string>Run</string>
     </property>
     <property name="checkable">
      <bool>false</bool>
@@ -253,7 +253,7 @@ border: 2px solid;</string>
      </rect>
     </property>
     <property name="placeholderText">
-     <string>Ip Adresse</string>
+     <string>Ip Address</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="sender_port">
@@ -292,7 +292,33 @@ border: 2px solid;</string>
      </rect>
     </property>
     <property name="text">
-     <string>Verbinden</string>
+     <string>Connect</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="save_btn">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>190</y>
+      <width>121</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Save project</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="load_btn">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>220</y>
+      <width>121</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Load project</string>
     </property>
    </widget>
   </widget>
@@ -301,7 +327,7 @@ border: 2px solid;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>555</width>
+     <width>492</width>
      <height>20</height>
     </rect>
    </property>

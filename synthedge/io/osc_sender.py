@@ -24,5 +24,5 @@ class OSCSender(QObject):
         :param address: OSC-Adresse (z. B. "/wek/inputs")
         :param args: Beliebig viele Werte, z. B. float, int, str
         """
-        self.client.send_message(address, args)
+        self.client.send_message(address, *args)
         self.trigger_blink.emit()

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'untitledRpndme.ui'
+## Form generated from reading UI file 'untitledCstYOg.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.9.0
 ##
@@ -20,12 +20,12 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QGroupBox, QLabel,
     QRadioButton, QSizePolicy, QStatusBar, QVBoxLayout,
     QWidget)
 
-class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
-        if not MainWindow.objectName():
-            MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(555, 368)
-        self.centralwidget = QWidget(MainWindow)
+class Ui_SynthEdge(object):
+    def setupUi(self, SynthEdge):
+        if not SynthEdge.objectName():
+            SynthEdge.setObjectName(u"SynthEdge")
+        SynthEdge.resize(555, 368)
+        self.centralwidget = QWidget(SynthEdge)
         self.centralwidget.setObjectName(u"centralwidget")
         self.groupBox = QGroupBox(self.centralwidget)
         self.groupBox.setObjectName(u"groupBox")
@@ -70,10 +70,10 @@ class Ui_MainWindow(object):
 "border: 2px solid;")
         self.train_btn = QPushButton(self.centralwidget)
         self.train_btn.setObjectName(u"train_btn")
-        self.train_btn.setGeometry(QRect(290, 210, 121, 41))
+        self.train_btn.setGeometry(QRect(330, 70, 121, 41))
         self.model_trainingstatus = QLabel(self.centralwidget)
         self.model_trainingstatus.setObjectName(u"model_trainingstatus")
-        self.model_trainingstatus.setGeometry(QRect(420, 220, 21, 21))
+        self.model_trainingstatus.setGeometry(QRect(460, 80, 21, 21))
         self.model_trainingstatus.setAutoFillBackground(False)
         self.model_trainingstatus.setStyleSheet(u"background-color: rgb(246, 97, 81);\n"
 "border-color: rgb(119, 118, 123);\n"
@@ -81,11 +81,11 @@ class Ui_MainWindow(object):
 "border: 2px solid;")
         self.record_btn = QPushButton(self.centralwidget)
         self.record_btn.setObjectName(u"record_btn")
-        self.record_btn.setGeometry(QRect(290, 160, 121, 41))
+        self.record_btn.setGeometry(QRect(330, 20, 121, 41))
         self.record_btn.setCheckable(False)
         self.rec_status = QLabel(self.centralwidget)
         self.rec_status.setObjectName(u"rec_status")
-        self.rec_status.setGeometry(QRect(420, 170, 20, 21))
+        self.rec_status.setGeometry(QRect(460, 30, 20, 21))
         self.rec_status.setAutoFillBackground(False)
         self.rec_status.setStyleSheet(u"background-color: rgb(246, 97, 81);\n"
 "border-color: rgb(119, 118, 123);\n"
@@ -93,7 +93,7 @@ class Ui_MainWindow(object):
 "border: 2px solid;")
         self.model_runstatus = QLabel(self.centralwidget)
         self.model_runstatus.setObjectName(u"model_runstatus")
-        self.model_runstatus.setGeometry(QRect(420, 270, 20, 21))
+        self.model_runstatus.setGeometry(QRect(460, 130, 20, 21))
         self.model_runstatus.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.model_runstatus.setAutoFillBackground(False)
         self.model_runstatus.setStyleSheet(u"background-color: rgb(246, 97, 81);\n"
@@ -102,7 +102,7 @@ class Ui_MainWindow(object):
 "border: 2px solid;")
         self.run_btn = QPushButton(self.centralwidget)
         self.run_btn.setObjectName(u"run_btn")
-        self.run_btn.setGeometry(QRect(290, 260, 120, 41))
+        self.run_btn.setGeometry(QRect(330, 120, 120, 41))
         self.run_btn.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.run_btn.setCheckable(False)
         self.sender_ip = QLineEdit(self.centralwidget)
@@ -117,38 +117,46 @@ class Ui_MainWindow(object):
         self.connect_btn = QPushButton(self.centralwidget)
         self.connect_btn.setObjectName(u"connect_btn")
         self.connect_btn.setGeometry(QRect(20, 80, 261, 23))
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QMenuBar(MainWindow)
+        self.save_btn = QPushButton(self.centralwidget)
+        self.save_btn.setObjectName(u"save_btn")
+        self.save_btn.setGeometry(QRect(230, 250, 121, 23))
+        self.load_btn = QPushButton(self.centralwidget)
+        self.load_btn.setObjectName(u"load_btn")
+        self.load_btn.setGeometry(QRect(360, 250, 121, 23))
+        SynthEdge.setCentralWidget(self.centralwidget)
+        self.menubar = QMenuBar(SynthEdge)
         self.menubar.setObjectName(u"menubar")
         self.menubar.setGeometry(QRect(0, 0, 555, 20))
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QStatusBar(MainWindow)
+        SynthEdge.setMenuBar(self.menubar)
+        self.statusbar = QStatusBar(SynthEdge)
         self.statusbar.setObjectName(u"statusbar")
-        MainWindow.setStatusBar(self.statusbar)
+        SynthEdge.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
+        self.retranslateUi(SynthEdge)
 
-        QMetaObject.connectSlotsByName(MainWindow)
+        QMetaObject.connectSlotsByName(SynthEdge)
     # setupUi
 
-    def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.groupBox.setTitle(QCoreApplication.translate("MainWindow", u"W\u00e4hle Art des Modelles", None))
-        self.model_type_classifiers.setText(QCoreApplication.translate("MainWindow", u"Klassifikatoren", None))
-        self.model_type_regressors.setText(QCoreApplication.translate("MainWindow", u"Regressoren", None))
+    def retranslateUi(self, SynthEdge):
+        SynthEdge.setWindowTitle(QCoreApplication.translate("SynthEdge", u"SynthEdge", None))
+        self.groupBox.setTitle(QCoreApplication.translate("SynthEdge", u"W\u00e4hle Art des Modelles", None))
+        self.model_type_classifiers.setText(QCoreApplication.translate("SynthEdge", u"Klassifikatoren", None))
+        self.model_type_regressors.setText(QCoreApplication.translate("SynthEdge", u"Regressoren", None))
         self.data_in_blink.setText("")
-        self.label.setText(QCoreApplication.translate("MainWindow", u"Osc Input", None))
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Osc Output", None))
+        self.label.setText(QCoreApplication.translate("SynthEdge", u"Osc Input", None))
+        self.label_2.setText(QCoreApplication.translate("SynthEdge", u"Osc Output", None))
         self.data_out_blink.setText("")
-        self.train_btn.setText(QCoreApplication.translate("MainWindow", u"Modell trainieren", None))
+        self.train_btn.setText(QCoreApplication.translate("SynthEdge", u"Modell trainieren", None))
         self.model_trainingstatus.setText("")
-        self.record_btn.setText(QCoreApplication.translate("MainWindow", u"Daten aufnehmen", None))
+        self.record_btn.setText(QCoreApplication.translate("SynthEdge", u"Daten aufnehmen", None))
         self.rec_status.setText("")
         self.model_runstatus.setText("")
-        self.run_btn.setText(QCoreApplication.translate("MainWindow", u"Ausf\u00fchren", None))
-        self.sender_ip.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Ip Adresse", None))
-        self.sender_port.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Port", None))
-        self.receiver_port.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Port", None))
-        self.connect_btn.setText(QCoreApplication.translate("MainWindow", u"Verbinden", None))
+        self.run_btn.setText(QCoreApplication.translate("SynthEdge", u"Ausf\u00fchren", None))
+        self.sender_ip.setPlaceholderText(QCoreApplication.translate("SynthEdge", u"Ip Adresse", None))
+        self.sender_port.setPlaceholderText(QCoreApplication.translate("SynthEdge", u"Port", None))
+        self.receiver_port.setPlaceholderText(QCoreApplication.translate("SynthEdge", u"Port", None))
+        self.connect_btn.setText(QCoreApplication.translate("SynthEdge", u"Verbinden", None))
+        self.save_btn.setText(QCoreApplication.translate("SynthEdge", u"Projekt speichern", None))
+        self.load_btn.setText(QCoreApplication.translate("SynthEdge", u"Projekt laden", None))
     # retranslateUi
 

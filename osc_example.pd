@@ -32,6 +32,12 @@
 #X msg 891 299 7 12;
 #X msg 801 274 8 2;
 #X obj 216 83 pack f 1;
+#X msg 472 454 symbol /home/hannes/saved_via_osc;
+#X obj 472 504 s oscout;
+#X msg 581 546 symbol /home/hannes/saved_via_osc;
+#X obj 581 596 s oscout;
+#X obj 581 571 oscformat synthedge load;
+#X obj 472 479 oscformat synthedge save;
 #X connect 0 0 32 0;
 #X connect 2 0 15 0;
 #X connect 3 0 4 0;
@@ -55,3 +61,7 @@
 #X connect 30 0 24 0;
 #X connect 31 0 24 0;
 #X connect 32 0 2 0;
+#X connect 33 0 38 0;
+#X connect 35 0 37 0;
+#X connect 37 0 36 0;
+#X connect 38 0 34 0;

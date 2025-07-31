@@ -14,6 +14,7 @@ sender = OSCSender(ip="127.0.0.1", port=5006)
 osc_in = OSCHandler(rec, model, sender, port=5003)
 
 
+
 def main():
     # try:
     #     while True:
@@ -21,7 +22,7 @@ def main():
     # except KeyboardInterrupt:
     #     osc_in.stop_osc()
 
-    osc_in.start_osc()
+    # osc_in.start_osc()
     app = QApplication(sys.argv)
     window = MainApp(osc_in, model, sender, rec)
     window.show()

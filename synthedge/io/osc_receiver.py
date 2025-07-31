@@ -1,7 +1,7 @@
 from pythonosc import dispatcher
 from pythonosc import osc_server
 from PySide6.QtCore import QObject, Signal
-from PySide6.QtWidgets import QMessageBox
+from PySide6.QtWidgets import QMessageBox, QFileDialog
 import numpy as np
 import threading
 
@@ -55,9 +55,12 @@ class OSCHandler(QObject):
     trigger_blink = Signal()
     rec_led = Signal(bool)
     run_led = Signal(bool)
+    trigger_save = Signal(str)
+    trigger_load = Signal(str)
+    error_occurred = Signal(str)
     def __init__(self, recorder, model, sender, port):
         super().__init__()
-        self.ip = "0.0.0.0"
+        self.ip = "127.0.0.1"
         self.port = port
         self.rec = recorder
         self.model = model
@@ -72,13 +75,10 @@ class OSCHandler(QObject):
         if(self.model.is_running):
             if self.model.is_trained: 
                 X_input = np.array(args).reshape(1, -1)
-                # print(X_input.shape)
-                print(*self.model.predict(X_input))
-                # self.sender.send_message("/synthedge/outputs", *self.model.predict(X_input))
+                print(*self.model.predict(X_input).tolist())
+                self.sender.send_message("/synthedge/outputs", *self.model.predict(X_input).tolist())
             else:
-                # raise ValueError('Modell nicht trainiert')
                 print("Train model first")
-                # QMessageBox.critical(None, "Fehler", "Etwas ist schiefgelaufen")
 
 
 
@@ -91,33 +91,35 @@ class OSCHandler(QObject):
             print("Disabling Run mode")
         print(f"Recording: {self.rec.is_recording}")
 
-    def save_handler(self, address):
-        self.rec.save()
+    def save_handler(self, address, path):
+        self.trigger_save.emit(path)
 
-    def load_handler(self, address):
-        self.rec.load()
+    def load_handler(self, address, path):
+        self.trigger_load.emit(path)
 
     def train_handler(self, *args):
         X,y = self.rec.get_data()
-        # print(X.shape)
-        # print(y.reshape((y.shape[0], y.shape[2])).shape)
         self.model.train(X, y.reshape((y.shape[0], y.shape[2])))
 
     def reset_handler(self, address):
         self.rec.reset()
         self.model.is_trained = False
+        self.model.toggle_trainingstate.emit(False)
 
     def label_handler(self, address, *args):
         self.rec.set_label(args)
 
     def run_handler(self, address, runstate):
-        self.model.is_running = bool(runstate)
-        print(f"Running state: {self.model.is_running}")
-        self.run_led.emit(self.model.is_running)
-        if(self.rec.is_recording):
-            print("Disabling recording of data")
-            self.rec.is_recording = False
-            
+        if self.model.is_trained:
+            self.model.is_running = bool(runstate)
+            print(f"Running state: {self.model.is_running}")
+            self.run_led.emit(self.model.is_running)
+            if(self.rec.is_recording):
+                print("Disabling recording of data")
+                self.rec.is_recording = False
+        else:
+            self.error_occurred.emit("Train model first")
+            print("Train model first")
 
 
 
@@ -126,8 +128,8 @@ class OSCHandler(QObject):
         self.receiver = OSCReceiver(ip=self.ip, port=self.port)
         self.receiver.add_handler("/synthedge/inputs", self.data_handler)
         self.receiver.add_handler("/synthedge/record_inputs", self.recorder_handler)
-        self.receiver.add_handler("/synthedge/save_inputs", self.save_handler)
-        self.receiver.add_handler("/synthedge/load_inputs", self.load_handler)
+        self.receiver.add_handler("/synthedge/save", self.save_handler)
+        self.receiver.add_handler("/synthedge/load", self.load_handler)
         self.receiver.add_handler("/synthedge/train", self.train_handler)
         self.receiver.add_handler("/synthedge/reset", self.reset_handler)
         self.receiver.add_handler("/synthedge/label", self.label_handler)

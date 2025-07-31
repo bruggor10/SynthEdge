@@ -205,15 +205,3 @@ class ModelManager(QObject):
     #         return self.model.predict_proba(X)
     #     else:
     #         raise NotImplementedError("Dieses Modell unterstützt keine Wahrscheinlichkeiten.")
-
-    # def save_model(self, filepath):
-    #     """
-    #     Speichert das Modell als .joblib-Datei.
-    #     """
-    #     joblib.dump(self.model, filepath)
-
-    # def load_model(self, filepath):
-    #     """
-    #     Lädt ein Modell aus einer .joblib-Datei.
-    #     """
-    #     self.model = joblib.load(filepath)

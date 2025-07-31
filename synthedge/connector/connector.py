@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox
 from PySide6.QtCore import QTimer
-from ..gui.ui_main import Ui_MainWindow
+from ..gui.ui_main import Ui_SynthEdge
 from ..io.osc_receiver import *
 from ..core.model_manager import ModelManager
 import sys
@@ -8,17 +8,18 @@ import sys
 class MainApp(QMainWindow):
     def __init__(self, osc_in, model, sender, recorder):
         super().__init__()
-        self.ui = Ui_MainWindow()
+        self.ui = Ui_SynthEdge()
         self.ui.setupUi(self)
-        self.osc_in=osc_in
         self.osc_out = sender
         self.model = model
         self.rec = recorder
+        self.osc_in=osc_in
+        self.osc_in.start_osc()
 
         self.ui.models.currentIndexChanged.connect(self.model_selected)     
         self.ui.model_type_classifiers.toggled.connect(self.classifiers_checked)
         self.ui.model_type_regressors.toggled.connect(self.regressors_checked)
-        self.ui.model_type_classifiers.setChecked(True)
+        # self.ui.model_type_classifiers.setChecked(True)
         
         # blink widgets
         self.input_blink_widget = BlinkWidget(self.ui.data_in_blink, role='blink')
@@ -27,11 +28,15 @@ class MainApp(QMainWindow):
         self.model_runstatus = BlinkWidget(self.ui.model_runstatus, role='led')
         self.rec_led = BlinkWidget(self.ui.rec_status, role='led')
 
+        # signals
         self.osc_in.run_led.connect(self.model_runstatus.toggle)
         self.osc_in.trigger_blink.connect(self.input_blink_widget.start_blinking)
         self.osc_out.trigger_blink.connect(self.output_blink_widget.start_blinking)
         self.model.toggle_trainingstate.connect(self.model_trainingstatus.toggle)
         self.osc_in.rec_led.connect(self.rec_led.toggle)
+        self.osc_in.trigger_save.connect(self.save_to_file)
+        self.osc_in.trigger_load.connect(self.load_from_file)
+        self.osc_in.error_occurred.connect(lambda: QMessageBox.critical(self, 'Fehler', "Modell nicht trainiert!"))
 
         # init textfields for osc connection
         self.ui.receiver_port.setText(str(self.osc_in.port))
@@ -42,6 +47,8 @@ class MainApp(QMainWindow):
         self.ui.run_btn.clicked.connect(self.on_run_btn)
         self.ui.record_btn.clicked.connect(self.on_rec_btn)
         self.ui.connect_btn.clicked.connect(self.on_connect_osc)
+        self.ui.save_btn.clicked.connect(self.on_save)
+        self.ui.load_btn.clicked.connect(self.on_load)
         
     def model_selected(self,index):
         selection = self.ui.models.currentText()
@@ -92,6 +99,67 @@ class MainApp(QMainWindow):
         except ValueError as e:
             QMessageBox.critical(self, "Fehler", str(e))
 
+    def on_save(self):
+        filename, _ = QFileDialog.getSaveFileName(
+            self,
+            "Projekt speichern",
+            "",
+            "Projektdateien (*.npz);;Alle Dateien (*)"
+        )
+        self.save_to_file(filename)
+        
+
+    def on_load(self):
+        filename, _ = QFileDialog.getOpenFileName(
+            self,
+            "Projekt laden",
+            "",
+            "Projektdateien (*.npz);;Alle Dateien (*)"
+        )
+        self.load_from_file(filename)
+
+
+    def load_from_file(self, filename):
+        if filename:
+            if not filename.endswith(".npz"):
+                filename += ".npz"
+            print(f"Ausgewählte Datei zum Laden: {filename}")
+
+            # Laden
+            try: 
+                data = np.load(filename, allow_pickle=True)
+                print(data["config"])
+                self.ui.receiver_port.setText(data["config"][0])
+                self.ui.sender_ip.setText(data["config"][1])
+                self.ui.sender_port.setText(data["config"][2])
+                self.on_connect_osc()
+                self.model.configure_model( data["config"][3])
+                self.ui.model_type_classifiers.setChecked(data["config"][4])
+                self.ui.model_type_regressors.setChecked(data["config"][5])
+                self.ui.models.setCurrentIndex(data["config"][6])
+                self.rec.inputs = data['X']
+                self.rec.labels = data['y']
+            except Exception as e:
+                QMessageBox.critical(self, "Error", "Error reading file!")
+    
+    def save_to_file(self, filename):
+        if filename:
+            if not filename.endswith(".npz"):
+                filename += ".npz"
+            print(f"Ausgewählte Datei zum Speichern: {filename}")
+
+            gui_config = np.array([
+                self.ui.receiver_port.text(),
+                self.ui.sender_ip.text(),
+                self.ui.sender_port.text(),
+                self.model.model_type,
+                self.ui.model_type_classifiers.isChecked(),
+                self.ui.model_type_regressors.isChecked(),
+                self.ui.models.currentIndex()
+            ], dtype=object)
+            # Speichern
+            np.savez(filename, config = gui_config, X = self.rec.inputs, y=self.rec.labels)
+
     def on_connect_osc(self):
         try:
             if self.ui.receiver_port.text()== '' or self.ui.sender_ip.text()=='' or self.ui.sender_port.text()=='':
@@ -105,6 +173,8 @@ class MainApp(QMainWindow):
             QMessageBox.information(self, 'Verbindung erfolgreich', f"Verbunden! Sender IP {self.osc_out.ip}, Sender Port {self.osc_out.port}")
         except Exception as e:
             QMessageBox.critical(self, "Fehler", str(e))
+
+
 class BlinkWidget(QTimer):
     def __init__(self, widget, role):
         super().__init__(widget)
