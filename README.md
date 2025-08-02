@@ -46,4 +46,4 @@ pip install -r requirements.txt
 ## how to build
 create virtual environment and source it(see above)
 build with 
-`pyinstaller --onefile main.py`
+`pyinstaller main.py --onefile --noconsole --icon=synthedge.ico --add-data "synthedge.ico;."`
