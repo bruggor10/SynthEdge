@@ -75,8 +75,11 @@ class OSCHandler(QObject):
             self.rec.add_input(list(args))
         if(self.model.is_running):
             if self.model.is_trained: 
-                X_input = np.array(args).reshape(1, -1)
-                self.sender.send_message("/synthedge/outputs", *self.model.predict(X_input).tolist())
+                try:
+                    X_input = np.array(args).reshape(1, -1)
+                    self.sender.send_message("/synthedge/outputs", *self.model.predict(X_input).tolist())
+                except Exception as e:
+                    self.logger.emit(str(e))
             else:
                 self.logger.emit("Train model first")
 

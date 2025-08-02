@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>507</width>
+    <width>505</width>
     <height>460</height>
    </rect>
   </property>
@@ -18,8 +18,8 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>150</y>
-      <width>181</width>
+      <y>130</y>
+      <width>201</width>
       <height>89</height>
      </rect>
     </property>
@@ -50,8 +50,8 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>240</y>
-      <width>181</width>
+      <y>220</y>
+      <width>201</width>
       <height>31</height>
      </rect>
     </property>
@@ -326,9 +326,14 @@ border: 2px solid;</string>
      <rect>
       <x>200</x>
       <y>290</y>
-      <width>58</width>
-      <height>15</height>
+      <width>111</width>
+      <height>31</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>22</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>Console</string>
@@ -337,9 +342,9 @@ border: 2px solid;</string>
    <widget class="QPlainTextEdit" name="console">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>330</y>
-      <width>411</width>
+      <x>20</x>
+      <y>320</y>
+      <width>471</width>
       <height>81</height>
      </rect>
     </property>
@@ -348,7 +353,7 @@ border: 2px solid;</string>
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>280</y>
+      <y>260</y>
       <width>84</width>
       <height>23</height>
      </rect>
@@ -363,8 +368,8 @@ border: 2px solid;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>507</width>
-     <height>20</height>
+     <width>505</width>
+     <height>33</height>
     </rect>
    </property>
   </widget>

@@ -124,6 +124,7 @@ class MainApp(QMainWindow):
             "Projektdateien (*.npz);;Alle Dateien (*)"
         )
         self.load_from_file(filename)
+        self.on_train_btn()
 
 
     def load_from_file(self, filename):

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'untitledGnanyQ.ui'
+## Form generated from reading UI file 'untitledjJAXjf.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.9.0
+## Created by: Qt User Interface Compiler version 6.9.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -24,12 +24,12 @@ class Ui_SynthEdge(object):
     def setupUi(self, SynthEdge):
         if not SynthEdge.objectName():
             SynthEdge.setObjectName(u"SynthEdge")
-        SynthEdge.resize(507, 460)
+        SynthEdge.resize(505, 460)
         self.centralwidget = QWidget(SynthEdge)
         self.centralwidget.setObjectName(u"centralwidget")
         self.groupBox = QGroupBox(self.centralwidget)
         self.groupBox.setObjectName(u"groupBox")
-        self.groupBox.setGeometry(QRect(20, 150, 181, 89))
+        self.groupBox.setGeometry(QRect(20, 130, 201, 89))
         self.verticalLayout = QVBoxLayout(self.groupBox)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.model_type_classifiers = QRadioButton(self.groupBox)
@@ -45,7 +45,7 @@ class Ui_SynthEdge(object):
 
         self.models = QComboBox(self.centralwidget)
         self.models.setObjectName(u"models")
-        self.models.setGeometry(QRect(20, 240, 181, 31))
+        self.models.setGeometry(QRect(20, 220, 201, 31))
         self.data_in_blink = QLabel(self.centralwidget)
         self.data_in_blink.setObjectName(u"data_in_blink")
         self.data_in_blink.setGeometry(QRect(270, 20, 21, 21))
@@ -125,17 +125,20 @@ class Ui_SynthEdge(object):
         self.load_btn.setGeometry(QRect(330, 220, 121, 23))
         self.label_3 = QLabel(self.centralwidget)
         self.label_3.setObjectName(u"label_3")
-        self.label_3.setGeometry(QRect(200, 290, 58, 15))
+        self.label_3.setGeometry(QRect(200, 290, 111, 31))
+        font = QFont()
+        font.setPointSize(22)
+        self.label_3.setFont(font)
         self.console = QPlainTextEdit(self.centralwidget)
         self.console.setObjectName(u"console")
-        self.console.setGeometry(QRect(50, 330, 411, 81))
+        self.console.setGeometry(QRect(20, 320, 471, 81))
         self.reset_btn = QPushButton(self.centralwidget)
         self.reset_btn.setObjectName(u"reset_btn")
-        self.reset_btn.setGeometry(QRect(20, 280, 84, 23))
+        self.reset_btn.setGeometry(QRect(20, 260, 84, 23))
         SynthEdge.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(SynthEdge)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 507, 20))
+        self.menubar.setGeometry(QRect(0, 0, 505, 33))
         SynthEdge.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(SynthEdge)
         self.statusbar.setObjectName(u"statusbar")
