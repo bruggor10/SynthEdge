@@ -1,4 +1,3 @@
-import joblib
 from PySide6.QtCore import QObject, Signal
 from PySide6.QtWidgets import QMessageBox
 # Klassifikatoren
@@ -17,6 +16,8 @@ from sklearn.svm import SVR
 from sklearn.preprocessing import StandardScaler, PolynomialFeatures
 from sklearn.pipeline import Pipeline
 
+#DTW
+from .dtw_classifier import DTWClassifier
 
 class ModelManager(QObject):
     # === gui elements connector ===
@@ -24,7 +25,7 @@ class ModelManager(QObject):
     logger = Signal(str)
     def __init__(self, **kwargs):
         """
-        Initialisiert das Modell. Unterstützte Typen: Classifiers: 'mlp', 'rf', 'svm'. Regressoren: 'lin_reg', 'mlp_reg', 'rf_reg', 'svr'
+        Initialisiert das Modell. Unterstützte Typen: Classifiers: 'mlp', 'rf', 'svm', 'dtw'. Regressoren: 'lin_reg', 'mlp_reg', 'rf_reg', 'svr'
         kwargs: Zusätzliche Parameter für das Modell
         """
         super().__init__()
@@ -33,7 +34,8 @@ class ModelManager(QObject):
         "mlp": "MLPClassifier",
         "rf": "RandomForestClassifier",
         "knn": "KNeighborsClassifier",
-        "svm": "SVC"
+        "svm": "SVC",
+        "dtw": "DynamicTimeWarp"
         }
         self.AVAILABLE_REGRESSORS = {
         # Regressoren
@@ -110,6 +112,9 @@ class ModelManager(QObject):
             }
             params = {**default_params, **kwargs}
             model = KNeighborsClassifier(**params)
+
+        elif self.model_type == 'dtw':
+            model = DTWClassifier()
 
             # === Regressors ====
         elif self.model_type == 'rf_reg':
@@ -198,10 +203,11 @@ class ModelManager(QObject):
     def get_regressors(self):
         return self.AVAILABLE_REGRESSORS.items()
 
-    #     """
-    #     Gibt Wahrscheinlichkeiten der Klassen zurück (falls unterstützt).
-    #     """
-    #     if hasattr(self.model.named_steps['model'], 'predict_proba'):
-    #         return self.model.predict_proba(X)
-    #     else:
-    #         raise NotImplementedError("Dieses Modell unterstützt keine Wahrscheinlichkeiten.")
+    def predict_proba(self):
+        """
+        Gibt Wahrscheinlichkeiten der Klassen zurück (falls unterstützt).
+        """
+        if hasattr(self.model.named_steps['model'], 'predict_proba'):
+            return self.model.predict_proba(X)
+        else:
+            raise NotImplementedError("Dieses Modell unterstützt keine Wahrscheinlichkeiten.")
